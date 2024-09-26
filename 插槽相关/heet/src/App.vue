@@ -1,10 +1,11 @@
 <script setup>
+    import father from "./components/father.vue"
   
-    import Preventjitter from './components/Preventjitter.vue'
+
 </script>
 
 <template>
-    <Preventjitter></Preventjitter>
+    <father></father>
 </template>
 
 <style scoped>
