@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .out{
+            background-color: aqua;
+            width: 300px;
+            margin: 0 auto;
+            height: 400px;
+        }
+        ul{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            flex-direction: column
+        }
+        li{
+            border: solid 1px black;
+            background-color: rgb(0, 255, 106);
+            padding: 20px;
+            margin-top: 10px;
+            cursor: pointer;
+        }
+        .butout{
+            width: 440px;
+            height: 400px;
+            background-color: aquamarine;
+            margin: 10px;
+        }
+        .active{
+            background-color: rgb(255, 17, 17);
+        }
+        .container{
+            display: flex;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+
+        <div class="but item1 butout" data-drop="move">
+            move
+        </div>
+        <div class="but item2 butout" data-drop="copy">
+            copy
+        </div>
+        <div class="but item3 butout" data-drop="move">
+            move
+        </div>
+        <div class="out but" data-drop="move">
+            <ul data-drop="move" class="but">
+                <li class="but" draggable="true" data-drop="copy">11111</li>
+                <li class="but" lass="but" draggable="true" data-drop="move">22222</li>
+                <li class="but" draggable="true">33333</li>
+                <li class="but" draggable="true">44444</li>
+                <li class="but" draggable="true">55555</li>
+            </ul>
+        </div>
+        
+    </div>
+
+
+
+
+
+    <script>
+        const container = document.querySelector('.container');
+        const but = document.querySelector('.but');
+
+        let source
+        container.addEventListener('dragstart', (e) => {
+            e.dataTransfer.effectAllowed = e.target.dataset.drop
+            clearDropstyle()
+            source= e.target
+        })
+        container.addEventListener('drop', (e) => {
+            clearDropstyle()
+            e.preventDefault()
+            const dropNode=getDropNode(e.target)
+            
+            if(dropNode && dropNode.dataset.drop === e.dataTransfer.effectAllowed && dropNode !== source){
+                if(dropNode.dataset.drop === 'copy'){
+                    dropNode.innerHTML=''
+                    const cloned=source.cloneNode(true)
+                    cloned.dataset.drop='move'
+                    dropNode.appendChild(cloned)
+                }else{
+                    source.remove()
+                }
+            }
+        })
+        function clearDropstyle(){
+            document.querySelectorAll('.but').forEach((i)=>{
+                i.classList.remove('active')
+            })
+        }
+        function getDropNode(node) {
+        while (node && node !== document) {
+            if (node.dataset && node.dataset.drop) {
+                return node;
+            }
+            node = node.parentNode;
+        }
+        return null;
+    }
+
+        container.addEventListener('dragenter', (e) => {
+            
+            clearDropstyle()
+            const dropNode=getDropNode(e.target)
+            if(dropNode && dropNode.dataset.drop === e.dataTransfer.effectAllowed && dropNode !== source){
+                dropNode.classList.add('active')
+            }
+
+
+            console.log(e.target);
+        })
+        container.addEventListener('dragover', function(e) {
+            // 阻止默认行为，否则无法放置
+            e.preventDefault();
+            
+            const dropNode = getDropNode(e.target);
+            if (dropNode && dropNode.dataset.drop) {
+                e.dataTransfer.dropEffect = dropNode.dataset.drop; // 设置鼠标样式
+                
+            } else {
+                e.dataTransfer.dropEffect = 'none'; // 否则禁止放置
+            }
+        });
+
+    </script>
+</body>
+</html>

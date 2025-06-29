@@ -1,0 +1,27 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+    {
+        "name": "Launch Program",
+        "program": "${workspaceFolder}/app.js",
+        "request": "launch",
+        "skipFiles": [
+            "<node_internals>/**"
+        ],
+        "type": "node"
+    },
+        {
+            "type": "msedge",
+            "request": "launch",
+            "name": "针对 localhost 启动 Edge",
+            "url": "http://localhost:8080",
+            "webRoot": "${workspaceFolder}"
+        },
+        {
+            "type": "node",
+            "name": "运行当前文件",
+            "request": "launch",
+            "program": "${workspaceFolder}\\002.js"
+        }
+    ]
+}
