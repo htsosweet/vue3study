@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        let tree = {
+            val: "a",
+            children: [
+                {
+                    val: "b",
+                    children: [
+                        { val: "d", children: [] },
+                        { val: "e", children: [] }
+                    ]
+                },
+                {
+                    val: "c",
+                    children: [
+                        {
+                            val: "f",
+                            children: [
+                                { val: "h", children: [] },
+                                { val: "i", children: [] }
+                            ]
+                        },
+                        {
+                            val: "j",
+                            children: [
+                                { val: "k", children: [] },
+                                { val: "l", children: [] }
+                            ]
+                        }
+                    ]
+                }
+
+            ]
+        }
+        function preorder(tree) {
+            let stack = [tree];
+            while (stack.length > 0) {
+                let node = stack.shift()
+                console.log(node.val);
+                if (node.children) {  // 添加空值判断
+                    node.children.forEach(element => {
+                        stack.push(element)
+                    });
+                }
+            }
+
+        }
+        // preorder(tree)
+        function bfs(tree) {
+            let root = tree.val
+            console.log(root);
+            if (!tree.children[0] || !tree.children[1]) {
+                return
+            }
+            bfs(tree.children[0])
+            bfs(tree.children[1])
+        }
+        bfs(tree)
+    </script>
+</body>
+
+</html>
